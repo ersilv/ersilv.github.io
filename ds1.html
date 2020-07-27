@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Applying Data Science to Soccer - Part 1</title>
+		<meta name="author" content="name">
+    <meta name="description" content="description here">
+		<meta name="keywords" content="keywords,here">
+		<link href="tailwind.min.css" rel="stylesheet">
+		<link href="animate.min.css" rel="stylesheet">
+	<style>
+	.smooth {transition: box-shadow 0.3s ease-in-out;}
+	::selection{background-color: aliceblue}
+	</style>
+</head>
+
+<body class="bg-white font-sans leading-normal tracking-normal">
+
+	<!--Nav-->
+	<nav class="bg-gray-900 p-4 mt-0 w-full"  style="background-image:url('img/background.jpg');">
+        <div class="container mx-auto flex items-center">
+		    <div class="flex text-white font-extrabold">
+				<a class="flex text-white text-base no-underline hover:text-white hover:no-underline" href="#"> 
+					<span class="hidden w-0 md:w-auto md:block pl-1">Eduardo Ribeiro</span>
+				</a>
+            </div>
+			<div class="flex pl-4 text-sm">
+				<ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
+				  <li class="mr-2">
+					<a class="inline-block py-2 px-2 text-white no-underline" href="index.html">HOME</a>
+				  </li>
+				</ul>
+			</div>
+        </div>
+	</nav>
+	
+	<!--slide in nav-->
+	<div id="header" class="bg-white fixed w-full z-10 top-0 hidden animated" style="opacity: .75;">
+		<div class="bg-white">
+			<div class="flex flex-wrap items-center content-center">
+				<div class="flex w-1/2 justify-start text-white font-extrabold">
+					<a class="flex text-gray-900 no-underline hover:text-gray-900 hover:no-underline pl-2" href="#">
+						<div class="flex w-full items-center font-sans">
+							<img class="w-10 h-10 rounded-full mr-4" src="img/av.jpg" alt="Avatar" oncontextmenu="return false;">
+							<div class="flex-1">
+								<p class="text-sm leading-none">ersilv</p>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!--Progress bar-->
+		<div id="progress" class="h-1 bg-white shadow" style="background:linear-gradient(to right, orange var(--scroll), transparent 0);"></div>
+    </div>
+	
+	
+	<!--Title-->
+	<div class="text-center pt-16 md:pt-8">
+		<h1 class="font-bold break-normal text-3xl md:text-5xl">Applying Data Science to Soccer - Part 1</h1>
+		<br>
+	</div>
+
+	<!--image-->
+	<div class="container w-full max-w-6xl mx-auto bg-white bg-cover rounded bg-cover" style="background-image:url('img/ds1_cover.png'); height: 85vh;">
+	</div>
+	
+	<!--Container-->
+	<div class="container max-w-5xl mx-auto -mt-4">
+		
+		<div class="mx-0 sm:mx-18">
+			
+			<div class="bg-white w-full p-8 md:p-24 text-lg text-gray-800 leading-normal text-justify" style="font-family:Georgia,serif;">
+				
+				<!--Post Content-->
+				
+				<p class="py-3 text-red-500">This is a work in progress and it is updated often. Whenever I have time I try to come up with new ideas and improved versions of existing ones. I am, by no means, a professional analyst and the work presented here should not be taken as a professional analysis. State of the art analysis is way more advanced than what is show here and it is kept as a secret in most clubs.</p>
+
+				<video autoplay loop muted oncontextmenu="return false;" class="w-full py-3">
+				  <source src="img/DS1/goal.mp4" type="video/mp4" />Your browser does not support the video tag.
+				</video>
+				
+				<p class="py-3">This post is about exploring how data analytics can be used to study performance in soccer. The goal is to use spatio-temporal position data from tracking systems to come up with visual metrics to help improve team and player performance. A visualization is often easier to explain and less boring than a table full of numbers and statistics that require a certain degree of knowledge to fully understand.</p>
+				<p class="py-3">The data being used here is the positional tracking of a match between Ajax vs PSV. It covers the first goal, scored by centre forward Kasper Dolberg at the 1 minute mark. It was the simplest data I found while searching online. I know Opta Sports has a few free samples of their data, covering the entire duration of a game, but the data is way more complex, with all actions taken by players, and I wanted to finish this project in only a couple of hours. I do intend, however, to analyze the match data provided by Opta in a second post, focusing on passing network, players defensive zone, team formation, among other metrics.</p>
+				
+				<p class="py-6 font-bold">Position</p>
+				<p class="py-3">The first step is to visualize the spatial data in a 2D soccer pitch, making possible to analyze all players movement, even the ones not showed in the camera shot. This visualization already helps the identification of soccer patterns and situations of interest to the analyst. It also helps in easier understanding of the players positions by presenting the information without the camera perspective.</p>
+				<video autoplay loop muted oncontextmenu="return false;" class="w-full py-3">
+				  <source src="img/DS1/position.mp4" type="video/mp4" />Your browser does not support the video tag.
+				</video>
+				<p class="py-3">We can see the left fullback (nº32) leaves the defensive line to apply pressure on the opposing player (nº10), creating a space in the teams defense to be exploited by the attacking team. The attacking team number 10 tries to explore this space by moving behind the fullback and appearing as a passing option, making the center back (nº28) move to cover the space, leaving the Ajax’s number 6 free to receive the pass. When number 6 receives the ball and enters the penalty area. Ajax has superiority numbers. The player can either shoots or pass to the centre forward, he chooses to pass to the centre forward, in a location with a higher scoring chance.</p>
+				
+				<p class="py-6 font-bold">Passing options</p>
+				<p class="py-3">To show the passing options I created a shallow Neural Network to predict the future position of the players. By using the position of the last few timestamps it is possible to estimate the future position without a NN, but this approach doesn't show good results in predicting player's change of direction.</p>
+				<p class="py-3">Players movement is anything but random (in most cases), for instance, in their decision making they take the ball position and teammates positions into consideration. An attacking player will try to get out of a defensive player's marking area, while a defensive player will try to narrow down the space. The developed NN doesn't take the last two conditions into consideration. but it shows good results and works will as a first version. I do intend to try more complex models to achieve more realistic results.</p>
+				<video autoplay loop muted oncontextmenu="return false;" class="w-full py-3">
+				  <source src="img/DS1/passing_options.mp4" type="video/mp4" />Your browser does not support the video tag.
+				</video>
+				<p class="py-3">By combining the future position of the players with the marking space of each defender, it is possible to show passing options based on a players' marked status in their predicted next position. For this example, I showed all available passing options without taking into consideration if the teammates if in the player's field of view. The tracking data doesn't contain the players facing direction and any attempt to calculate one would be a hard guess as players are constantly looking for the ball and other players positions.</p>
+				
+				<p class="py-6 font-bold">Voronoi</p>
+				<p class="py-3">Voronoi diagrams have been widely used in soccer analytics. By definition, a Voronoi diagram is a partition of a plane into regions close to each of a given set of objects. In the simplest case, these objects are just finitely many points in the plane (called seeds, generators). For each seed there is a corresponding region consisting of all points of the plane closer to that seed than to any other. These regions are called Voronoi cells.</p>
+				<p class="py-3">In soccer, Voronoi diagrams are used to observe space. By using the players positions as seeds to divide the soccer pitch, the Voronoi cells become the player's region of control. It helps to analyze players behavior and spatial positioning. This is important because one of the key components of soccer is about controlling space, the attacker team tries to create space for their attack maneuvers, increasing their scoring chance, and the defender team tries to narrow down the space as much as possible to avoid goal scoring opportunities.</p>
+				<video autoplay loop muted oncontextmenu="return false;" class="w-full py-3">
+				  <source src="img/DS1/voronoi.mp4" type="video/mp4" />Your browser does not support the video tag.
+				</video>
+				<p class="py-3">On a team based level it helps answer questions about how the team acts without the ball, how the team narrows downs spaces, how they move the ball, how the team creates spaces when attacking. For players, it helps to analyze how successful a player is in finding space, teammates, closing down the opponents attacks. It can be used to analyze future opponents, finding new opportunities to exploit areas that the opposing team left open, to search for weakness in one team's positioning, and to analyze players behavior, looking for weakness to exploit, to fix your own team players positioning, or even for scouting, to see how a prospect deals within certain situations. The area of the Voronoi cells can be calculated for each player, combined by team and compared to show with team has the dominance over the pitch.</p>
+				<p class="py-3">One criticism about Voronoi diagrams application in soccer is that it assumes the stationary state of objects. It doesn't take into consideration player's velocity and facing directions. While true, no model would be perfect without taking into consideration each players individual velocity, fatigue, field of view, response time, among others factors, making it almost impossible to have a very fitting model. Voronoi diagrams still offers a good solution to analyze players positioning and space control, and by calculating the Voronoi cells using the predicted future position the problem can be mitigated.</p>
+				
+				<p class="py-6 font-bold">Delaunay Triangulation</p>
+				<p class="py-3">Delaunay triangulation is the straight-line dual of a Voronoi diagram. Given a set of discrete points on a plane, a Delaunay triangulation is a set of lines connecting each point to its nearest neighbors.</p>
+				<p class="py-3">In soccer, the Delaunay Triangulation can be used by showing the available passing triangles options for a player. This triangles allow a safe and fast passing option for every player on the pitch as well as providing creative angles of attack for the team to exploit. These passing triangles are often pointed as the key strength of Barcelona’s Tiki-Taka style.</p>
+				<video autoplay loop muted oncontextmenu="return false;" class="w-full py-3">
+				  <source src="img/DS1/delaunay_triangulation.mp4" type="video/mp4" />Your browser does not support the video tag.
+				</video>
+				<p class="py-3">The video above combines the Delaunay Triangulation with the prediction position, marking and passing, with a Voronoi diagram of the attacking team also being displayed. Unlike the previous passing options, this one only show passing along the triangulation (based of the predicted players triangulation, not the one being displayed). It's possible to analyze player making decision in game situations by comparing the actual pass over the passing options.</p>
+				
+				<p class="py-6 font-bold">Convex Hull</p>
+				<p class="py-3">While not as widely used as the Voronoi diagrams, the convex hull is another tool used in soccer analytics. In geometry, the convex hull of a set of points is defined as the smallest convex polygon, that encloses all of the points in the set. Convex means that the polygon has no corner that is bent inwards.</p>
+				<p class="py-3">In soccer, convex hulls can be used for team based analysis focused on the movement of the whole team (usually with the exception of the goal keeper) or of a subset of players that interact heavily during a game, such as the midfielders or the defensive players. It can be used to discover patterns of the collective movements of the teams. The area of the convex hull can also be calculated for comparisons.</p>
+				<video autoplay loop muted oncontextmenu="return false;" class="w-full py-3">
+				  <source src="img/DS1/convex_hull.mp4" type="video/mp4" />Your browser does not support the video tag.
+				</video>
+				<p class="py-3">One of the key measures that convex hulls can help analyze is the compactness of the team. Compactness, or how tight the positioning between teammates in the field, is how teams are trained to keep their positioning compact and work as an interconnected unit, restricting spaces between players within the defense, midfield and attack.</p>
+				<p class="py-3">The biggest advantage of staying compact when defending is the minimal amount of space that a player has to cover in order to cover or mark the opponent. The better proximity that is offered by staying compact also ensures that a player has a team mate that can cover him. Offensively, high pressing teams base their success on good compact structures and connectivity, yielding impressive results as soon as they recover the ball further up.</p>
+				
+				<p class="py-6 text-red-500">There are still a lot to cover, from positional grid (both the standard one and Guardiola's), zone defense, adherence of the defensive line, to passing options to maximize the expected goals (xG) or the expected assists (xA) and more. I hope to be able to developt all of these and to present it in a visual way, without having to rely on statistics, formulas and endless tables with Std. Error, Z-values, P-values, etc.</p>
+				<!--/ Post Content-->
+						
+			</div>
+		</div>
+	</div>
+
+	<footer class="bg-gray-900">	
+		<div class="container max-w-6xl mx-auto flex items-center px-2 py-8">
+
+			<div class="w-full mx-auto flex flex-wrap items-center">
+				<div class="flex w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
+					<span class="text-base text-gray-200">ersilv</span>
+				</div>
+				<div class="flex w-1/5 justify-end content-center">		
+						<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center  avatar" href="https://github.com/ersilv">
+								<svg width="32" height="32" class="fill-current" xmlns="http://www.w3.org/2000/svg" ><path d="M10 0c1.814 0 3.487.435 5.02 1.306a9.827 9.827 0 0 1 3.639 3.542A9.33 9.33 0 0 1 20 9.734c0 2.121-.636 4.03-1.908 5.723a9.783 9.783 0 0 1-4.928 3.518c-.234.042-.408.012-.52-.09a.49.49 0 0 1-.17-.38l.006-.969c.005-.621.007-1.19.007-1.705 0-.82-.226-1.42-.677-1.8.495-.05.94-.126 1.335-.228a5.4 5.4 0 0 0 1.223-.494 3.62 3.62 0 0 0 1.055-.843c.282-.334.512-.777.69-1.33.178-.554.267-1.19.267-1.909a3.7 3.7 0 0 0-1.028-2.61c.32-.77.286-1.631-.105-2.586-.243-.076-.594-.03-1.054.14-.46.168-.86.354-1.198.557l-.495.304a9.478 9.478 0 0 0-2.5-.33c-.86 0-1.693.11-2.5.33a11.6 11.6 0 0 0-.553-.342c-.23-.135-.593-.298-1.088-.488-.494-.19-.863-.247-1.106-.171-.391.955-.426 1.816-.105 2.585A3.7 3.7 0 0 0 3.62 9.227c0 .719.089 1.352.267 1.902.178.549.406.993.683 1.33.278.339.627.622 1.048.85a5.4 5.4 0 0 0 1.224.494c.395.102.84.178 1.335.228-.338.305-.551.74-.638 1.306a2.631 2.631 0 0 1-.586.19 3.782 3.782 0 0 1-.742.063c-.287 0-.57-.09-.853-.272a2.256 2.256 0 0 1-.723-.792 2.068 2.068 0 0 0-.631-.66c-.256-.168-.471-.27-.645-.304l-.26-.038c-.182 0-.308.02-.378.057-.07.038-.09.087-.065.146.026.06.065.118.117.178.053.059.109.11.17.152l.09.063c.192.085.38.245.567.482.187.236.324.452.41.646l.13.292c.113.32.304.58.574.78.269.198.56.325.872.38.312.054.614.084.905.088.29.004.532-.01.723-.044l.299-.05c0 .32.002.694.007 1.12l.006.692a.49.49 0 0 1-.17.38c-.112.101-.286.13-.52.089a9.783 9.783 0 0 1-4.928-3.518C.636 13.763 0 11.855 0 9.734a9.33 9.33 0 0 1 1.341-4.886 9.827 9.827 0 0 1 3.64-3.542C6.512.436 8.185 0 10 0zM3.79 13.98c.025-.058-.005-.11-.092-.151-.087-.026-.143-.017-.17.025-.025.06.005.11.092.152.078.05.134.042.17-.025zm.403.432c.06-.043.052-.11-.026-.203-.087-.076-.157-.089-.209-.038-.06.042-.052.11.026.203.087.084.157.097.209.038zm.39.57c.078-.06.078-.14 0-.24-.07-.11-.143-.136-.221-.077-.078.042-.078.118 0 .228.078.11.152.14.221.089zm.547.532c.07-.067.052-.148-.052-.24-.104-.102-.19-.115-.26-.039-.078.068-.061.148.052.241.104.102.19.114.26.038zm.742.317c.026-.093-.03-.16-.169-.203-.13-.033-.213-.004-.247.09-.035.092.021.155.169.19.13.05.213.025.247-.077zm.82.064c0-.11-.073-.157-.22-.14-.14 0-.209.047-.209.14 0 .11.074.156.221.139.14 0 .209-.046.209-.14zm.756-.127c-.017-.093-.096-.131-.234-.114-.14.025-.2.088-.183.19.018.101.096.135.235.101.139-.034.2-.093.182-.177z" fill-rule="nonzero"></path></svg>
+							</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+<script>
+	/* Progress bar */
+	//Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+	var h = document.documentElement,
+		  b = document.body,
+		  st = 'scrollTop',
+		  sh = 'scrollHeight',
+		  progress = document.querySelector('#progress'),
+		  scroll;
+	var scrollpos = window.scrollY;
+	var header = document.getElementById("header");
+
+	document.addEventListener('scroll', function() {
+
+		/*Refresh scroll % width*/
+		scroll = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+		progress.style.setProperty('--scroll', scroll + '%');
+
+		/*Apply classes for slide in bar*/
+		scrollpos = window.scrollY;
+
+    if(scrollpos > 100){
+      header.classList.remove("hidden");
+	  header.classList.remove("fadeOutUp");
+	  header.classList.add("slideInDown");
+    }
+    else {
+	  header.classList.remove("slideInDown");
+      header.classList.add("fadeOutUp");
+	  header.classList.add("hidden");
+    }
+
+	});
+	
+	
+
+</script>
+
+</body>
+</html>
