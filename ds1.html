@@ -83,7 +83,7 @@
 				</video>
 				
 				<p class="py-3">This post is about exploring how data analytics can be used to study performance in soccer. The goal is to use spatio-temporal position data from tracking systems to come up with visual metrics to help improve team and player performance. A visualization is often easier to explain and less boring than a table full of numbers and statistics that require a certain degree of knowledge to fully understand.</p>
-				<p class="py-3">The data being used here is the positional tracking of a match between Ajax vs PSV. It covers the first goal, scored by centre forward Kasper Dolberg at the 1 minute mark. It was the simplest data I found while searching online. I know Opta Sports has a few free samples of their data, covering the entire duration of a game, but the data is way more complex, with all actions taken by players, and I wanted to finish this project in only a couple of hours. I do intend, however, to analyze the match data provided by Opta in a second post, focusing on passing network, players defensive zone, team formation, among other metrics.</p>
+				<p class="py-3">The data being used here is the positional tracking of a match between Ajax vs PSV. It covers the first goal, scored by centre forward Kasper Dolberg at the 1 minute mark. It was the simplest data I found while searching online. I know StatsBomb, Metrica Sports and Wyscout have a few free samples of their data, covering the entire duration of a game, but the data is way more complex, with all actions taken by players, and I wanted to finish this project in only a couple of hours. I do intend, however, to analyze the match data provided by them in a second post, focusing on passing network, players defensive zone, team formation, among other metrics.</p>
 				
 				<p class="py-6 font-bold">Position</p>
 				<p class="py-3">The first step is to visualize the spatial data in a 2D soccer pitch, making possible to analyze all players movement, even the ones not showed in the camera shot. This visualization already helps the identification of soccer patterns and situations of interest to the analyst. It also helps in easier understanding of the players positions by presenting the information without the camera perspective.</p>
@@ -107,6 +107,12 @@
 				  <source src="img/DS1/voronoi.mp4" type="video/mp4" />Your browser does not support the video tag.
 				</video>
 				<p class="py-3">On a team based level it helps answer questions about how the team acts without the ball, how the team narrows downs spaces, how they move the ball, how the team creates spaces when attacking. For players, it helps to analyze how successful a player is in finding space, teammates, closing down the opponents attacks. It can be used to analyze future opponents, finding new opportunities to exploit areas that the opposing team left open, to search for weakness in one team's positioning, and to analyze players behavior, looking for weakness to exploit, to fix your own team players positioning, or even for scouting, to see how a prospect deals within certain situations. The area of the Voronoi cells can be calculated for each player, combined by team and compared to show with team has the dominance over the pitch.</p>
+				
+				<figure>
+					<img src="img/DS1/pitch_control.png" class="h-full w-full rounded-t pb-6" oncontextmenu="return false;">
+					<figcaption class="text-center">Example of pitch control calculated from Voronoi cells.</figcaption>
+				</figure>
+				
 				<p class="py-3">One criticism about Voronoi diagrams application in soccer is that it assumes the stationary state of objects. It doesn't take into consideration player's velocity and facing directions. While true, no model would be perfect without taking into consideration each players individual velocity, fatigue, field of view, response time, among others factors, making it almost impossible to have a very fitting model. Voronoi diagrams still offers a good solution to analyze players positioning and space control, and by calculating the Voronoi cells using the predicted future position the problem can be mitigated.</p>
 				
 				<p class="py-6 font-bold">Delaunay Triangulation</p>
