@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Applying Data Science to Soccer - Part 2</title>
+		<meta name="author" content="name">
+    <meta name="description" content="description here">
+		<meta name="keywords" content="keywords,here">
+		<link href="tailwind.min.css" rel="stylesheet">
+		<link href="animate.min.css" rel="stylesheet">
+	<style>
+	.smooth {transition: box-shadow 0.3s ease-in-out;}
+	::selection{background-color: aliceblue}
+	</style>
+</head>
+
+<body class="bg-white font-sans leading-normal tracking-normal">
+
+	<!--Nav-->
+	<nav class="bg-gray-900 p-4 mt-0 w-full"  style="background-image:url('img/background.jpg');">
+        <div class="container mx-auto flex items-center">
+		    <div class="flex text-white font-extrabold">
+				<a class="flex text-white text-base no-underline hover:text-white hover:no-underline" href="#"> 
+					<span class="hidden w-0 md:w-auto md:block pl-1">Eduardo Ribeiro</span>
+				</a>
+            </div>
+			<div class="flex pl-4 text-sm">
+				<ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
+				  <li class="mr-2">
+					<a class="inline-block py-2 px-2 text-white no-underline" href="index.html">HOME</a>
+				  </li>
+				</ul>
+			</div>
+        </div>
+	</nav>
+	
+	<!--slide in nav-->
+	<div id="header" class="bg-white fixed w-full z-10 top-0 hidden animated" style="opacity: .75;">
+		<div class="bg-white">
+			<div class="flex flex-wrap items-center content-center">
+				<div class="flex w-1/2 justify-start text-white font-extrabold">
+					<a class="flex text-gray-900 no-underline hover:text-gray-900 hover:no-underline pl-2" href="#">
+						<div class="flex w-full items-center font-sans">
+							<img class="w-10 h-10 rounded-full mr-4" src="img/av.jpg" alt="Avatar" oncontextmenu="return false;">
+							<div class="flex-1">
+								<p class="text-sm leading-none">ersilv</p>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!--Progress bar-->
+		<div id="progress" class="h-1 bg-white shadow" style="background:linear-gradient(to right, orange var(--scroll), transparent 0);"></div>
+    </div>
+	
+	
+	<!--Title-->
+	<div class="text-center pt-16 md:pt-8">
+		<h1 class="font-bold break-normal text-3xl md:text-5xl">Applying Data Science to Soccer - Part 2</h1>
+		<br>
+	</div>
+
+	<!--image-->
+	<div class="container w-full max-w-6xl mx-auto bg-white bg-cover rounded bg-cover" style="background-image:url('img/ds3_cover.png'); height: 85vh;">
+	</div>
+	
+	<!--Container-->
+	<div class="container max-w-5xl mx-auto -mt-4">
+		
+		<div class="mx-0 sm:mx-18">
+			
+			<div class="bg-white w-full p-8 md:p-24 text-lg text-gray-800 leading-normal text-justify" style="font-family:Georgia,serif;">
+				
+				<!--Post Content-->
+				<p class="py-3 text-red-500">Whenever I have time I try to come up with new ideas and improved versions of existing ones. I am, by no means, a professional analyst and the work presented here should not be taken as a professional analysis.</p>
+				
+				<p class="py-3">The objective of this post is to analyze event data of a soccer game and come up with useful metrics and insights to help understand the game. For this, we use the event data to create passing networks, defensive areas, shots and outcomes map, goals and expected goals. More techniques may be added in the future as I explore the data in more depth.</p>
+				
+				<p class="py-3">All data used in this post is provided by StatsBomb Services Ltd ("StatsBomb"). StatsBomb makes the data freely available and accessible to encourage and facilitate research and the shared analytical understanding of the game. It is important to note that any analysis or conclusions that are created and presented here as a result of using this data are not the opinions or analytical insights of StatsBomb.</p>
+				
+				<p class="py-3">The data is provided as a series of json files covering competitions, matches, lineups and events. The competitions file list all covered competitions with and their corresponding seasons. Each season of a competition has it's own file listing all the games, the result, the managers, and more. For each match, there is a corresponding events file, describing all events that occurred in the game, and a lineup files, listing the players. Bellow is an example of a mapped event, a ground pass between Iniesta and Messi.</p>
+				
+				<div class="shadow-lg text-code-white text-sm font-mono bg-gray-200 px-5 pb-6 pt-4 rounded-lg overflow-hidden">
+				<div class="flex mb-4">
+					<span class="h-3 w-3 bg-red-500 rounded-full"></span>
+					<span class="ml-2 h-3 w-3 bg-orange-300 rounded-full"></span>
+					<span class="ml-2 h-3 w-3 bg-green-500 rounded-full"></span>
+				</div>
+				{ "id" : "a653649d-cd03-42cc-b005-350d3c91b566", "index" : 870, "period" : 1, "timestamp" : "00:23:53.525", "minute" : 23, "second" : 53, "type" : { "id" : 30, "name" : "Pass" }, "possession" : 49, "possession_team" : { "id" : 217, "name" : "Barcelona" }, "play_pattern" : { "id" : 1, "name" : "Regular Play" }, "team" : { "id" : 217, "name" : "Barcelona" }, "player" : { "id" : 5216, "name" : "Andrés Iniesta Luján" }, "position" : { "id" : 21, "name" : "Left Wing" }, "location" : [ 53.9, 11.8 ], "duration" : 0.858604, "related_events" : [ "4479bfe0-4bdf-48ab-9d75-bb73cbc885fa" ], "pass" : { "recipient" : { "id" : 5503, "name" : "Lionel Andrés Messi Cuccittini" }, "length" : 11.951987, "angle" : 0.7676486, "height" : { "id" : 1, "name" : "Ground Pass" }, "end_location" : [ 62.5, 20.1 ], "body_part" : { "id" : 40, "name" : "Right Foot" } } }
+				</div>
+
+				<p class="py-3">The data used here covers the events of the 2018-2019 UEFA Champions League Finals between Tottenham Hotspur and Liverpool. The game ended with a Liverpool win by 2-0, with a penalty converted by Salah at the 2 minutes mark and a goal by substitute Origi at the end, around the 87th minute. </p> 
+								
+				<p class="py-6 font-bold">Passing Network</p>
+				<p class="py-3">Passing Networks are a type of network analysis that has been used in football in the last years to understand what happens inside the pitch during a game. These network show the most important passing connections between the players, the intensity of these passing connections and the average position where the player make the pass.</p>
+				
+				<p class="py-3">In soccer, the network represents the players as the nodes in the graph, and the connections between the nodes are a representation of the intensity of the passes between the players. In this example, the players positions in the map are the average position where they made the passes in the game. It is also common to use the average position they received the passes or a fixed position represented by their role. The size of the nodes represents the number of passes the player made, while the thickness and the color of the connections represents the total number of pass between the pair of players.</p>
+				
+				<figure>
+					<img src="img/DS3/Liverpool.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
+					<figcaption class="text-center">Liverpool passing network.</figcaption>
+				</figure>
+				
+				<p class="py-3">In other cases, for more advanced analysis, the size of the nodes can represent other metrics for qualifying the value of the passes and the players impact in possession, goal and pass link, such as VAEP (valuing actions by estimating probabilities), xT (expected threat), PV (possession value), EPV (expected possession value), g+ (goals added). Some also try to show the specific type of pass, such as 'long pass', 'side pass', 'back pass'. Other metrics like pass accuracy, effective possession time, amount of pass per minute of possession, average length and direction of passes can also be used.</p>
+				
+				<p class="py-3">It's also possible to incorporate some network related metrics. Closeness can measure the minimum number of steps the ball has to undergo from on player to reach another one, showing how well connected are players inside the team. Betweenness centrality can account for many times a given player is necessary for completing the route connecting any two players, showing how crucial the players is to maintain passing connections. Clustering coefficient can measure the number of close players that also have passed the ball between them, showing the number of passing triangles created by the players. I will try to cover all these measures in a future post.</p>
+				
+				<figure>
+					<img src="img/DS3/Hotspur.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
+					<figcaption class="text-center">Hotspur passing network.</figcaption>
+				</figure>
+
+				<p class="py-3">This networks can also be used to compare the dynamics of the team between different stages of the game, such as before and after a substitution, before and after a tactical shift, between the 2 halves of a game, before and after a goal is scored. This can help analyses the impact of a substitution and if the player was able to change the flow of the game, how the team acted after taking or scoring a goal.</p>
+				
+				<p class="py-3">In the images above, we can see how Liverpool played, playing mainly through the left side of their attack, specially with Andrew Robertson and Sadio Mané. On the other hand, Hotspur had more trouble to make the transition between the defense and the attack, The majority of their passes were between the goalkeeper and the two central defenders.</p>
+				
+				<p class="py-6 font-bold">Defensive Area</p>
+				<p class="py-3">Defensive maps are a way to show where the players most important defensive contributions lies. With this, it is possible to get an idea of the regions of the pitch the player usually operates, and remove defensive actions that may have been made because the players was in a wrong tactical position during the game. By Calculating defensive maps for all the players, we can see how they defend as a team.</p>
+				<figure>
+					<img src="img/DS3/liverpool_defense.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
+					<figcaption class="text-center">Liverpool defensive area.</figcaption>
+				</figure>
+				<p class="py-3">To calculate the defensive map, we look at all the defensive actions the player took, such as interceptions, blocks, clearances, saves, among others, that resulted in a possession switch or foul. First we calculate the average position of a player defensive actions and remove all actions that fall too far away. In this example, we took out all actions that fall outside one standard deviation in both directions left/right across the pitch and up/down the pitch. We, then, calculate the convex hull with the core defensive actions positions, resulting in the players defensive hull.</p>
+				<figure>
+					<img src="img/DS3/hotspur_defense.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
+					<figcaption class="text-center">Hotspur defensive area.</figcaption>
+				</figure>
+				<p class="py-3">In the example above, it is interesting to note is that Son, despite being an attacker, playing as left wing, has a lot of defensive contributions. He is always helping the defense during the opponents corners or free kicks, having as much contributions as the center back. His only other defensive action in the game was near the opponent area, and was removed for being an outlier.</p>
+				
+				<p class="py-6 font-bold">Goals and Expected Goals (xG)</p>
+				<p class="py-3 text-red-500">Coming soon.</p>
+				<figure>
+					<img src="img/DS3/hotspur_liverpool.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
+					<figcaption class="text-center">Hotspur vs Liverpool goals and expected goals (xG).</figcaption>
+				</figure>
+								
+				<p class="py-6 font-bold">Shots and Outcomes</p>
+				<p class="py-3 text-red-500">Coming soon.</p>
+				<figure>
+					<img src="img/DS3/hotspur_liverpool_shots.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
+					<figcaption class="text-center">Hotspur vs Liverpool shots and outcomes.</figcaption>
+				</figure>
+								
+				<p class="py-3">The data analyzed in this post is property of StatsBomb.</p>
+				<figure>
+					<img src="img/statsbomb-logo.jpg" class="rounded-t"  width="30%" height="30%" oncontextmenu="return false;">
+				</figure>
+				
+				<!--/ Post Content-->
+						
+			</div>
+		</div>
+	</div>
+
+	<footer class="bg-gray-900">	
+		<div class="container max-w-6xl mx-auto flex items-center px-2 py-8">
+
+			<div class="w-full mx-auto flex flex-wrap items-center">
+				<div class="flex w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
+					<span class="text-base text-gray-200">ersilv</span>
+				</div>
+				<div class="flex w-1/5 justify-end content-center">		
+						<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center  avatar" href="https://github.com/ersilv">
+								<svg width="32" height="32" class="fill-current" xmlns="http://www.w3.org/2000/svg" ><path d="M10 0c1.814 0 3.487.435 5.02 1.306a9.827 9.827 0 0 1 3.639 3.542A9.33 9.33 0 0 1 20 9.734c0 2.121-.636 4.03-1.908 5.723a9.783 9.783 0 0 1-4.928 3.518c-.234.042-.408.012-.52-.09a.49.49 0 0 1-.17-.38l.006-.969c.005-.621.007-1.19.007-1.705 0-.82-.226-1.42-.677-1.8.495-.05.94-.126 1.335-.228a5.4 5.4 0 0 0 1.223-.494 3.62 3.62 0 0 0 1.055-.843c.282-.334.512-.777.69-1.33.178-.554.267-1.19.267-1.909a3.7 3.7 0 0 0-1.028-2.61c.32-.77.286-1.631-.105-2.586-.243-.076-.594-.03-1.054.14-.46.168-.86.354-1.198.557l-.495.304a9.478 9.478 0 0 0-2.5-.33c-.86 0-1.693.11-2.5.33a11.6 11.6 0 0 0-.553-.342c-.23-.135-.593-.298-1.088-.488-.494-.19-.863-.247-1.106-.171-.391.955-.426 1.816-.105 2.585A3.7 3.7 0 0 0 3.62 9.227c0 .719.089 1.352.267 1.902.178.549.406.993.683 1.33.278.339.627.622 1.048.85a5.4 5.4 0 0 0 1.224.494c.395.102.84.178 1.335.228-.338.305-.551.74-.638 1.306a2.631 2.631 0 0 1-.586.19 3.782 3.782 0 0 1-.742.063c-.287 0-.57-.09-.853-.272a2.256 2.256 0 0 1-.723-.792 2.068 2.068 0 0 0-.631-.66c-.256-.168-.471-.27-.645-.304l-.26-.038c-.182 0-.308.02-.378.057-.07.038-.09.087-.065.146.026.06.065.118.117.178.053.059.109.11.17.152l.09.063c.192.085.38.245.567.482.187.236.324.452.41.646l.13.292c.113.32.304.58.574.78.269.198.56.325.872.38.312.054.614.084.905.088.29.004.532-.01.723-.044l.299-.05c0 .32.002.694.007 1.12l.006.692a.49.49 0 0 1-.17.38c-.112.101-.286.13-.52.089a9.783 9.783 0 0 1-4.928-3.518C.636 13.763 0 11.855 0 9.734a9.33 9.33 0 0 1 1.341-4.886 9.827 9.827 0 0 1 3.64-3.542C6.512.436 8.185 0 10 0zM3.79 13.98c.025-.058-.005-.11-.092-.151-.087-.026-.143-.017-.17.025-.025.06.005.11.092.152.078.05.134.042.17-.025zm.403.432c.06-.043.052-.11-.026-.203-.087-.076-.157-.089-.209-.038-.06.042-.052.11.026.203.087.084.157.097.209.038zm.39.57c.078-.06.078-.14 0-.24-.07-.11-.143-.136-.221-.077-.078.042-.078.118 0 .228.078.11.152.14.221.089zm.547.532c.07-.067.052-.148-.052-.24-.104-.102-.19-.115-.26-.039-.078.068-.061.148.052.241.104.102.19.114.26.038zm.742.317c.026-.093-.03-.16-.169-.203-.13-.033-.213-.004-.247.09-.035.092.021.155.169.19.13.05.213.025.247-.077zm.82.064c0-.11-.073-.157-.22-.14-.14 0-.209.047-.209.14 0 .11.074.156.221.139.14 0 .209-.046.209-.14zm.756-.127c-.017-.093-.096-.131-.234-.114-.14.025-.2.088-.183.19.018.101.096.135.235.101.139-.034.2-.093.182-.177z" fill-rule="nonzero"></path></svg>
+							</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+<script>
+	/* Progress bar */
+	//Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+	var h = document.documentElement,
+		  b = document.body,
+		  st = 'scrollTop',
+		  sh = 'scrollHeight',
+		  progress = document.querySelector('#progress'),
+		  scroll;
+	var scrollpos = window.scrollY;
+	var header = document.getElementById("header");
+
+	document.addEventListener('scroll', function() {
+
+		/*Refresh scroll % width*/
+		scroll = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+		progress.style.setProperty('--scroll', scroll + '%');
+
+		/*Apply classes for slide in bar*/
+		scrollpos = window.scrollY;
+
+    if(scrollpos > 100){
+      header.classList.remove("hidden");
+	  header.classList.remove("fadeOutUp");
+	  header.classList.add("slideInDown");
+    }
+    else {
+	  header.classList.remove("slideInDown");
+      header.classList.add("fadeOutUp");
+	  header.classList.add("hidden");
+    }
+
+	});
+	
+	
+
+</script>
+
+</body>
+</html>
