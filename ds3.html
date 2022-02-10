@@ -106,7 +106,7 @@
 				
 				<p class="py-3">In other cases, for more advanced analysis, the size of the nodes can represent other metrics for qualifying the value of the passes and the players impact in possession, goal and pass link, such as VAEP (valuing actions by estimating probabilities), xT (expected threat), PV (possession value), EPV (expected possession value), g+ (goals added). Some also try to show the specific type of pass, such as 'long pass', 'side pass', 'back pass'. Other metrics like pass accuracy, effective possession time, amount of pass per minute of possession, average length and direction of passes can also be used.</p>
 				
-				<p class="py-3">It's also possible to incorporate some network related metrics. Closeness can measure the minimum number of steps the ball has to undergo from on player to reach another one, showing how well connected are players inside the team. Betweenness centrality can account for many times a given player is necessary for completing the route connecting any two players, showing how crucial the players is to maintain passing connections. Clustering coefficient can measure the number of close players that also have passed the ball between them, showing the number of passing triangles created by the players. I will try to cover all these measures in a future post.</p>
+				<p class="py-3">It's also possible to incorporate some network related metrics. Closeness can measure the minimum number of steps the ball has to undergo from on player to reach another one, showing how well connected are players inside the team. Betweenness centrality can account for many times a given player is necessary for completing the route connecting any two players, showing how crucial the players is to maintain passing connections. Clustering coefficient can measure the number of close players that also have passed the ball between them, showing the number of passing triangles created by the players.</p>
 				
 				<figure>
 					<img src="img/DS3/Hotspur.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
@@ -131,17 +131,41 @@
 				<p class="py-3">In the example above, it is interesting to note is that Son, despite being an attacker, playing as left wing, has a lot of defensive contributions. He is always helping the defense during the opponents corners or free kicks, having as much contributions as the center back. His only other defensive action in the game was near the opponent area, and was removed for being an outlier.</p>
 				
 				<p class="py-6 font-bold">Goals and Expected Goals (xG)</p>
-				<p class="py-3 text-red-500">Coming soon.</p>
+				<p class="py-3">In a low-scoring game such as football, final match score does not provide a clear picture of performance. Expected Goals (xG) was created with the purpose of measuring the quality of the goalscoring chances created and conceded by each team.</p>
+				<p class="py-3">This metric is created by mapping the points of each shot and, internalizing them in an extensive databases, measuring the probability of goals being scored. A xG model takes into consideration a number of variables that affect the likelihood of a goal being scored, such as: distance of the shot; part of the body used to perform it (head, foot, other); type of play (open play, free kick, corner kick, counter attack, throw-in); type of assist (cross, cut back, pass); among others.</p>
 				<figure>
 					<img src="img/DS3/hotspur_liverpool.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
 					<figcaption class="text-center">Hotspur vs Liverpool goals and expected goals (xG).</figcaption>
 				</figure>
+				<p class="py-3">The Expected Goals metric can be used in different ways: to indicate a players/teams shooting ability (or luck), by comparing their total xG with the number of converted goals; the allowed xG can show a team's ability to prevent scoring opportunities by limiting the opponent of taking high probability shots.</p>
+				<p class="py-3">Another way the expected values can be used is by plotting the xG values along the timeline of the game, creating a Expected Goals Plot. xGPlots make it possible to illustrate the narrative of the game in a chronological order, not only the amount and the quality of the shots are important, but also when they occur.</p>
+				<figure>
+					<img src="img/DS3/xgplot.png" class="h-full w-full rounded-t"
+					oncontextmenu="return false;">
+					<figcaption class="text-center">Expected Goals Plot illustrating the game's narrative in chronological order.
+					</figcaption>
+				</figure>
+				<p class="py-3">The xGPlot above show us that after receiving a goal in the first minute, Tottenham was unable to create more than one chance during the first half of the game. However, in the second half of the game, Tottenham was able to create 12 goalscoring opportunities. Liverpool started the game with a goal at the 1 minute mark, but after that didn't (nor did they necessarily needed to) create as much quality scoring chances as their opponent.</p>
 								
 				<p class="py-6 font-bold">Shots and Outcomes</p>
 				<p class="py-3 text-red-500">Coming soon.</p>
+				<p class="py-3">Another way of using the data to analyze the game is by plotting the shots and their outcomes. This gives way more context to the match than simple statistics about how many shots each team had.</p>
 				<figure>
 					<img src="img/DS3/hotspur_liverpool_shots.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
 					<figcaption class="text-center">Hotspur vs Liverpool shots and outcomes.</figcaption>
+				</figure>
+				
+				<p class="py-3"></p>
+				<figure>
+					<img src="img/DS3/shots.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
+					<figcaption class="text-center">Hotspur shots.</figcaption>
+				</figure>
+				
+				<p class="py-6 font-bold">Passes</p>
+				<p class="py-3 text-red-500">Coming soon.</p>
+				<figure>
+					<img src="img/DS3/son_passes.png" class="h-full w-full rounded-t" oncontextmenu="return false;">
+					<figcaption class="text-center">Son's passes vs Liverpool.</figcaption>
 				</figure>
 								
 				<p class="py-3">The data analyzed in this post is property of StatsBomb.</p>
